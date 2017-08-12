@@ -1,4 +1,4 @@
-package com.arifsaputra.iak_intermediate;
+package com.arifsaputra.iak_intermediate.app;
 
 import android.app.Application;
 import android.content.Context;
