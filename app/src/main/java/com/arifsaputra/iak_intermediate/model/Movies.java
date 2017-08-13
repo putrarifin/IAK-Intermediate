@@ -1,11 +1,13 @@
 package com.arifsaputra.iak_intermediate.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Chyrus on 8/13/17.
  * Muh Arif Saputra (Android Developer)
  */
 
-public class Movies {
+public class Movies implements Serializable{
 
     private int id;
     private String original_language;

@@ -1,12 +1,12 @@
 package com.arifsaputra.iak_intermediate.activity;
 
-import android.graphics.Movie;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -20,7 +20,8 @@ import com.arifsaputra.iak_intermediate.adapter.ListAdapter;
 import com.arifsaputra.iak_intermediate.adapter.viewholders.MovieViewHolder;
 import com.arifsaputra.iak_intermediate.app.AppMovie;
 import com.arifsaputra.iak_intermediate.model.Movies;
-import com.arifsaputra.iak_intermediate.model.ProductionCompanies;
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,8 +48,10 @@ public class MovieActivity extends BaseActivity {
 
         if (isInternetConnectionAvailable())
             getData();
-        else
-        Toast.makeText(this, "no connection", Toast.LENGTH_SHORT).show();
+        else {
+            Toast.makeText(this, "no connection", Toast.LENGTH_SHORT).show();
+            hideDialog();
+        }
     }
 
     private void initRecycler() {
@@ -56,7 +59,7 @@ public class MovieActivity extends BaseActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         //set layout orientation (Linear/GRID)
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2)); //2 itu jumlah column
 
         //menambahkan divider peritem
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1));
@@ -71,11 +74,38 @@ public class MovieActivity extends BaseActivity {
                         , Movies.class // class object
                         , list) {
             @Override
-            protected void bindView(MovieViewHolder holder, Movies model, int position) {
+            protected void bindView(MovieViewHolder holder, final Movies model, int position) {
+
+                //color background
+//                if (position%2 == 0)
+//                    holder.getItem().setBackgroundColor(ContextCompat.getColor(getApplicationContext(),android.R.color.holo_orange_light));
+//                else
+//                    holder.getItem().setBackgroundColor(ContextCompat.getColor(getApplicationContext(),android.R.color.holo_blue_bright));
+                //glide
+                Glide.with(getApplicationContext())
+                        .load(URLs.BASE_IMAGE+model.getPoster_path()) // url nya
+                        .into(holder.gambar_movie);//item view image nya
+                /*
+                //picasso
+                Picasso.with(getApplicationContext())
+                        .load(URLs.BASE_IMAGE+model.getPoster_path()) // url nya
+                        .into(holder.gambar_movie);//item view image nya*/
+
                 holder.title.setText(model.getOriginal_title());
                 //parsing to String
                 holder.vote_average.setText(String.valueOf(model.getVote_average()));
                 holder.release_date.setText(model.getRelease_date());
+
+                holder.getItem().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        Toast.makeText(MovieActivity.this, model.getOriginal_title(), Toast.LENGTH_SHORT).show();
+                        Intent in = new Intent(MovieActivity.this,DetailMovieActivity.class);
+                        in.putExtra("movie",model);
+
+                        startActivity(in);
+                    }
+                });
             }
         };
 

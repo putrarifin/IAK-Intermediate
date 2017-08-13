@@ -9,6 +9,8 @@ public class URLs {
 
     public static String BASE_URL = "https://api.themoviedb.org/3/movie/";
 
+    public static final String BASE_IMAGE = "http://image.tmdb.org/t/p/w185";
+
     public static String api_key = "d2d9ab691917e86e312e24cb610bdc9a";
 
     public static final String URL_MOVIE_550 = BASE_URL + "550?api_key=" + api_key;

@@ -65,7 +65,7 @@ public class BaseActivity extends AppCompatActivity {
     protected boolean isInternetConnectionAvailable() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork.isConnectedOrConnecting();
+        return activeNetwork == null ? false : activeNetwork.isConnectedOrConnecting();
     }
 
 }
