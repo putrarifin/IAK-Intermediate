@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.arifsaputra.iak_intermediate">
 
-    <!--ini buat permission koneksi internet buat aplikasi-->
+    <!-- ini buat permission koneksi internet buat aplikasi -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!--ini buat permission pengecekan jaringan. guna untuk cek ada koneksi ato tdk.-->
+    <!-- ini buat permission pengecekan jaringan. guna untuk cek ada koneksi ato tdk. -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -17,8 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity">
+        </activity>
+        <activity android:name=".activity.MovieActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

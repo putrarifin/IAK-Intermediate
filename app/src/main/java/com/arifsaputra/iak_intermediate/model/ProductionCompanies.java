@@ -10,6 +10,9 @@ public class ProductionCompanies {
     private int id;
     private String name;
 
+    public ProductionCompanies() {
+    }
+
     public ProductionCompanies(int id, String name) {
         this.id = id;
         this.name = name;
