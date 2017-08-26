@@ -68,7 +68,7 @@ public class MovieActivity extends BaseActivity {
                 List<Movies> movies = getDB().getAllMovies();
 
                 for (Movies mv : movies) {
-                    String log = "Id: "+mv.getId()+" ,Title: " + mv.getOriginal_title() + " ,favorite: " + mv.getFavorite();
+                    String log = "Id: " + mv.getId() + " ,Title: " + mv.getOriginal_title() + " ,favorite: " + mv.getFavorite();
                     // Writing Movies to log
                     Log.d("movie : ", log);
                 }
@@ -150,7 +150,7 @@ public class MovieActivity extends BaseActivity {
                     JSONArray results = parent.getJSONArray("results");
                     //kosongin list company
                     list = new ArrayList<>();
-
+                    getDB().clearMovie();
                     for (int i = 0; i < results.length(); i++) {
                         JSONObject anak_results = results.getJSONObject(i);
 
@@ -166,7 +166,10 @@ public class MovieActivity extends BaseActivity {
                         m.setVote_count(anak_results.getInt("vote_count"));
 
                         //insert to db local SQLITE
-                        getDB().addMovie(m);
+                        if (getDB().getCountMovies() != results.length()) {
+                            getDB().addMovie(m);
+                        }
+
 
                         list.add(m);
                     }

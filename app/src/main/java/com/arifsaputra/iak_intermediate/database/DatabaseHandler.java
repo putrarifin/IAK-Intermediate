@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -64,6 +65,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     //ALL CRUD METHOD
 
+    public int getCountMovies() {
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_MOVIES;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        return cursor.getCount();
+    }
+
     //tambahkan movie
     public void addMovie(Movies movies) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -75,6 +86,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         //inserting row to table
         db.insert(TABLE_MOVIES, null, values);
+        db.close();
+    }
+
+    //truncate movie
+    public void clearMovie() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //clear table
+        db.execSQL("DELETE FROM "+TABLE_MOVIES);
         db.close();
     }
 
@@ -124,7 +144,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_TITLE, movies.getOriginal_title()); // put title movie
-        values.put(KEY_FAVORITE, "false"); // put favorite
+        values.put(KEY_FAVORITE, movies.getFavorite()); // put favorite
 
         // updating row
         return db.update(TABLE_MOVIES, values, KEY_ID + " = ?",
