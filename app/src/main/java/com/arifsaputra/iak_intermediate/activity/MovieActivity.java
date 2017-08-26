@@ -46,9 +46,10 @@ public class MovieActivity extends BaseActivity {
 
         showDialog("Loading...");
 
-        if (isInternetConnectionAvailable())
-            getData();
-        else {
+        if (isInternetConnectionAvailable()) {
+            getData(URLs.URL_MOVIE_TOP_RATED);
+            getData(URLs.URL_MOVIE_POPULAR);
+        } else {
             Toast.makeText(this, "no connection", Toast.LENGTH_SHORT).show();
             hideDialog();
         }
@@ -59,7 +60,7 @@ public class MovieActivity extends BaseActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         //set layout orientation (Linear/GRID)
-        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2)); //2 itu jumlah column
+        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2)); //2 itu jumlah column
 
         //menambahkan divider peritem
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), 1));
@@ -83,7 +84,7 @@ public class MovieActivity extends BaseActivity {
 //                    holder.getItem().setBackgroundColor(ContextCompat.getColor(getApplicationContext(),android.R.color.holo_blue_bright));
                 //glide
                 Glide.with(getApplicationContext())
-                        .load(URLs.BASE_IMAGE+model.getPoster_path()) // url nya
+                        .load(URLs.BASE_IMAGE + model.getPoster_path()) // url nya
                         .into(holder.gambar_movie);//item view image nya
                 /*
                 //picasso
@@ -100,8 +101,8 @@ public class MovieActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
 //                        Toast.makeText(MovieActivity.this, model.getOriginal_title(), Toast.LENGTH_SHORT).show();
-                        Intent in = new Intent(MovieActivity.this,DetailMovieActivity.class);
-                        in.putExtra("movie",model);
+                        Intent in = new Intent(MovieActivity.this, DetailMovieActivity.class);
+                        in.putExtra("movie", model);
 
                         startActivity(in);
                     }
@@ -112,10 +113,10 @@ public class MovieActivity extends BaseActivity {
         recyclerView.setAdapter(listAdapter);
     }
 
-    public void getData() {
+    public void getData(String url) {
         //init set request api
         StringRequest request = new StringRequest(Request.Method.GET //method request (POST,GET,DELETE,PUT)
-                , URLs.URL_MOVIE_TOP_RATED //url api
+                , url  //url api
                 , new Response.Listener<String>() { //response api
             @Override
             public void onResponse(String response) {//response string butuh convert ke json

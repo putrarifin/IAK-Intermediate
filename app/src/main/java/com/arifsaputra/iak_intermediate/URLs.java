@@ -17,4 +17,6 @@ public class URLs {
 
     public static final String URL_MOVIE_TOP_RATED = BASE_URL + "top_rated?api_key=" + api_key;
 
+    public static final String URL_MOVIE_POPULAR = BASE_URL + "popular?api_key=" + api_key;
+
 }
