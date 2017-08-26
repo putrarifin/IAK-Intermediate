@@ -119,13 +119,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     //update movie
-    public void updateMovie(Movies movies) {
+    public int updateMovie(Movies movies) {
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        ContentValues values = new ContentValues();
+        values.put(KEY_TITLE, movies.getOriginal_title()); // put title movie
+        values.put(KEY_FAVORITE, "false"); // put favorite
+
+        // updating row
+        return db.update(TABLE_MOVIES, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(movies.getId()) });
     }
 
     //delete movie
     private void deleteMovie(Movies movies) {
-
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_MOVIES, KEY_ID + " = ?",
+                new String[] { String.valueOf(movies.getId()) });
+        db.close();
     }
 
 }
