@@ -18,6 +18,7 @@ public class Movies implements Serializable{
     private String release_date;
     private double vote_average;
     private int vote_count;
+    private String  favorite;
 
     public Movies() {
     }
@@ -32,6 +33,13 @@ public class Movies implements Serializable{
         this.release_date = release_date;
         this.vote_average = vote_average;
         this.vote_count = vote_count;
+    }
+
+    //contructor for sqlite
+    public Movies(int id, String original_title, String favorite) {
+        this.id = id;
+        this.original_title = original_title;
+        this.favorite = favorite;
     }
 
     public int getId() {
