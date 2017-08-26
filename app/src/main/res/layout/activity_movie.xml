@@ -10,14 +10,13 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bt_read_movies_local"
-        ></android.support.v7.widget.RecyclerView>
+        android:layout_above="@+id/bt_read_movies_local"/>
 
     <Button
-        android:layout_alignParentBottom="true"
         android:id="@+id/bt_read_movies_local"
-        android:text="read movie local"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="read movie local" />
 
 </RelativeLayout>
