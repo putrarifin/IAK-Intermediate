@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Muh Arif Saputra (Android Developer)
  */
 
-public class Movies implements Serializable{
+public class Movies implements Serializable {
 
     private int id;
     private String original_language;
@@ -18,7 +18,7 @@ public class Movies implements Serializable{
     private String release_date;
     private double vote_average;
     private int vote_count;
-    private String  favorite;
+    private String favorite;
 
     public Movies() {
     }
@@ -112,5 +112,13 @@ public class Movies implements Serializable{
 
     public void setVote_count(int vote_count) {
         this.vote_count = vote_count;
+    }
+
+    public String getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(String favorite) {
+        this.favorite = favorite;
     }
 }

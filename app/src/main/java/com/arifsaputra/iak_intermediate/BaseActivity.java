@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
+import com.arifsaputra.iak_intermediate.database.DatabaseHandler;
+
 /**
  * Created by Chyrus on 8/12/17.
  * Muh Arif Saputra (Android Developer)
@@ -21,6 +23,8 @@ public class BaseActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
     //alert
     private AlertDialog.Builder alert;
+    //database
+    private DatabaseHandler db;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,14 +33,24 @@ public class BaseActivity extends AppCompatActivity {
         pDialog = new ProgressDialog(this);
         //init alert
         alert = new AlertDialog.Builder(this);
+
+        //init db SQLITE
+        db = new DatabaseHandler(this);
+    }
+
+    //method buat get db
+    protected DatabaseHandler getDB() {
+        return db;
     }
 
     //method buat alert popup
-    protected void showAlertMessage(String title,String message) {
+    protected void showAlertMessage(String title, String message) {
         alert.setTitle(title);
         alert.setMessage(message);
         alert.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-            @Override public void onClick(DialogInterface dialog, int which) {}
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
         });
         alert.show();
     }

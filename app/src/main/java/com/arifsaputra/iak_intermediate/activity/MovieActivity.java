@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -28,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MovieActivity extends BaseActivity {
 
@@ -36,6 +38,8 @@ public class MovieActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private ListAdapter listAdapter;
     private ArrayList<Movies> list = new ArrayList<>();
+
+    private Button bt_read;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +51,29 @@ public class MovieActivity extends BaseActivity {
         showDialog("Loading...");
 
         if (isInternetConnectionAvailable()) {
-            getData(URLs.URL_MOVIE_TOP_RATED);
+//            getData(URLs.URL_MOVIE_TOP_RATED);
             getData(URLs.URL_MOVIE_POPULAR);
         } else {
             Toast.makeText(this, "no connection", Toast.LENGTH_SHORT).show();
             hideDialog();
         }
+
+        bt_read = (Button) findViewById(R.id.bt_read_movies_local);
+
+        bt_read.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Reading all movies
+                Log.d("Reading: ", "Reading all movies..");
+                List<Movies> movies = getDB().getAllMovies();
+
+                for (Movies mv : movies) {
+                    String log = "Id: "+mv.getId()+" ,Title: " + mv.getOriginal_title() + " ,favorite: " + mv.getFavorite();
+                    // Writing Movies to log
+                    Log.d("movie : ", log);
+                }
+            }
+        });
     }
 
     private void initRecycler() {
@@ -143,6 +164,9 @@ public class MovieActivity extends BaseActivity {
                         m.setRelease_date(anak_results.getString("release_date"));
                         m.setVote_average(anak_results.getDouble("vote_average"));
                         m.setVote_count(anak_results.getInt("vote_count"));
+
+                        //insert to db local SQLITE
+                        getDB().addMovie(m);
 
                         list.add(m);
                     }
