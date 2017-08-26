@@ -13,7 +13,8 @@ public class DetailMovieActivity extends BaseActivity {
 
     private Movies movies;
     private TextView overview;
-    private Button bt_favoritel;
+    private Button bt_favorite;
+    private Button bt_delete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +27,23 @@ public class DetailMovieActivity extends BaseActivity {
         //bind view
         overview = (TextView) findViewById(R.id.overview);
 
-        overview.setText(movies.getOverview());
+        overview.setText(movies.getOriginal_title());
 
-        bt_favoritel = (Button) findViewById(R.id.bt_favoritel);
-        bt_favoritel.setOnClickListener(new View.OnClickListener() {
+        bt_favorite = (Button) findViewById(R.id.bt_favorite);
+        bt_favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 movies.setFavorite("true");
                 getDB().updateMovie(movies);
+                finish();
+            }
+        });
+        bt_delete = (Button) findViewById(R.id.bt_delete);
+        bt_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDB().deleteMovie(movies);
+                finish();
             }
         });
     }

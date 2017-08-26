@@ -138,6 +138,30 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return movieList;
     }
 
+    //ambil data semua movie
+    public ArrayList<Movies> getAllListMovies() {
+        ArrayList<Movies> movieList = new ArrayList<>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_MOVIES;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Movies movies = new Movies(Integer.parseInt(cursor.getString(0)),
+                        cursor.getString(1), cursor.getString(2));
+
+                // Adding movie to list
+                movieList.add(movies);
+            } while (cursor.moveToNext());
+        }
+
+        // return movie list
+        return movieList;
+    }
+
     //update movie
     public int updateMovie(Movies movies) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -152,7 +176,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     //delete movie
-    private void deleteMovie(Movies movies) {
+    public void deleteMovie(Movies movies) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_MOVIES, KEY_ID + " = ?",
                 new String[] { String.valueOf(movies.getId()) });

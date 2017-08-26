@@ -13,8 +13,13 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:text="fav"
-        android:id="@+id/bt_favoritel"
+        android:text="favorite"
+        android:id="@+id/bt_favorite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:text="delete"
+        android:id="@+id/bt_delete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

@@ -49,14 +49,11 @@ public class MovieActivity extends BaseActivity {
         initAdapterMovies();
 
         showDialog("Loading...");
+        //delete isi tabel
+        getDB().clearMovie();
 
-        if (isInternetConnectionAvailable()) {
-//            getData(URLs.URL_MOVIE_TOP_RATED);
-            getData(URLs.URL_MOVIE_POPULAR);
-        } else {
-            Toast.makeText(this, "no connection", Toast.LENGTH_SHORT).show();
-            hideDialog();
-        }
+        //get data
+        requestToServer();
 
         bt_read = (Button) findViewById(R.id.bt_read_movies_local);
 
@@ -74,6 +71,16 @@ public class MovieActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    private void requestToServer() {
+        if (isInternetConnectionAvailable()) {
+//            getData(URLs.URL_MOVIE_TOP_RATED);
+            getData(URLs.URL_MOVIE_POPULAR);
+        } else {
+            Toast.makeText(this, "no connection", Toast.LENGTH_SHORT).show();
+            hideDialog();
+        }
     }
 
     private void initRecycler() {
@@ -104,9 +111,9 @@ public class MovieActivity extends BaseActivity {
 //                else
 //                    holder.getItem().setBackgroundColor(ContextCompat.getColor(getApplicationContext(),android.R.color.holo_blue_bright));
                 //glide
-                Glide.with(getApplicationContext())
+                /*Glide.with(getApplicationContext())
                         .load(URLs.BASE_IMAGE + model.getPoster_path()) // url nya
-                        .into(holder.gambar_movie);//item view image nya
+                        .into(holder.gambar_movie);//item view image nya*/
                 /*
                 //picasso
                 Picasso.with(getApplicationContext())
@@ -115,8 +122,8 @@ public class MovieActivity extends BaseActivity {
 
                 holder.title.setText(model.getOriginal_title());
                 //parsing to String
-                holder.vote_average.setText(String.valueOf(model.getVote_average()));
-                holder.release_date.setText(model.getRelease_date());
+                /*holder.vote_average.setText(String.valueOf(model.getVote_average()));
+                holder.release_date.setText(model.getRelease_date());*/
 
                 holder.getItem().setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -150,7 +157,7 @@ public class MovieActivity extends BaseActivity {
                     JSONArray results = parent.getJSONArray("results");
                     //kosongin list company
                     list = new ArrayList<>();
-                    getDB().clearMovie();
+
                     for (int i = 0; i < results.length(); i++) {
                         JSONObject anak_results = results.getJSONObject(i);
 
@@ -170,11 +177,12 @@ public class MovieActivity extends BaseActivity {
                             getDB().addMovie(m);
                         }
 
-
                         list.add(m);
                     }
 
-                    listAdapter.swapData(list);
+                    //change data from database local
+                    listAdapter.swapData(getDB().getAllListMovies());
+//                    listAdapter.swapData(list);
                     hideDialog();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -191,5 +199,11 @@ public class MovieActivity extends BaseActivity {
 
         //add to que request on appMovie
         AppMovie.getInstance().addToRequestQueue(request, TAG);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        listAdapter.swapData(getDB().getAllListMovies());
     }
 }
