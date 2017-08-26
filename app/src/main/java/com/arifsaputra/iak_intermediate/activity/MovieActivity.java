@@ -194,6 +194,7 @@ public class MovieActivity extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 hideDialog();
+
             }
         });
 
